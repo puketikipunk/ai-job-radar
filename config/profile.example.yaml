@@ -51,6 +51,16 @@ sources:
     type: lever
     site: replace-with-a-lever-site-slug
     enabled: false
+  - name: Official job-alert inbox
+    type: imap_alerts
+    folder: CareerPilot Job Alerts
+    allowed_sender_domains:
+      - linkedin.com
+      - indeed.com
+      - irishjobs.ie
+      - jobs.ie
+    max_messages: 100
+    enabled: false
 
 storage:
   sqlite_path: data/careerpilot.sqlite3
@@ -58,4 +68,3 @@ storage:
 email:
   subject_prefix: "CareerPilot"
   max_jobs_per_digest: 15
-

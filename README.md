@@ -7,12 +7,15 @@ The first profile is set up for an Ireland-based Engineering Project Manager / T
 ## What works in v0.1
 
 - Greenhouse and Lever public-job-board collectors.
+- Inbox ingestion for official LinkedIn, company, recruiter, and job-board alerts.
 - Transparent title, location, skill, and exclusion scoring.
 - SQLite persistence and repeat-safe deduplication.
 - Terminal digest, dry-run mode, and optional SMTP email delivery.
 - Scheduled GitHub Actions workflow, ready once secrets and durable storage are configured.
 
 It intentionally does not scrape LinkedIn, Indeed, IrishJobs, or Jobs.ie. Those sites' automation rules and access patterns are not a stable or responsible foundation. Add company ATS feeds, public RSS feeds, or a licensed job-search API instead.
+
+For the full target-company and alert setup, see [the source strategy](docs/sources.md).
 
 ## Quick start
 
@@ -46,4 +49,3 @@ careerpilot jobs --limit 20
 ## Deployment
 
 See [docs/deployment.md](docs/deployment.md). GitHub Actions runners are ephemeral, so configure durable storage before enabling a scheduled email digest. Do not put SMTP credentials in the repository.
-

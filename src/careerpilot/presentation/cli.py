@@ -9,10 +9,18 @@ from pathlib import Path
 import typer
 
 from careerpilot.application.matcher import RuleBasedMatcher
+from careerpilot.application.ports import JobCollector
 from careerpilot.application.runner import JobRadar
 from careerpilot.infrastructure.collectors.greenhouse import GreenhouseCollector
+from careerpilot.infrastructure.collectors.imap_alerts import ImapAlertsCollector
 from careerpilot.infrastructure.collectors.lever import LeverCollector
-from careerpilot.infrastructure.config import GreenhouseSourceConfig, LeverSourceConfig, load_config
+from careerpilot.infrastructure.config import (
+    AppConfig,
+    GreenhouseSourceConfig,
+    ImapAlertsSourceConfig,
+    LeverSourceConfig,
+    load_config,
+)
 from careerpilot.infrastructure.digest import HtmlDigestRenderer
 from careerpilot.infrastructure.email import SmtpDigestSender
 from careerpilot.infrastructure.repository import SQLiteJobRepository
@@ -28,16 +36,25 @@ def _configure_logging() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 
 
-def _collectors(config: object) -> list[object]:
-    sources = config.sources
-    collectors: list[object] = []
-    for source in sources:
+def _collectors(config: AppConfig) -> list[JobCollector]:
+    """Build enabled infrastructure collectors from validated settings."""
+    collectors: list[JobCollector] = []
+    for source in config.sources:
         if not source.enabled:
             continue
         if isinstance(source, GreenhouseSourceConfig):
             collectors.append(GreenhouseCollector(source.name, source.board_token))
         elif isinstance(source, LeverSourceConfig):
             collectors.append(LeverCollector(source.name, source.site))
+        elif isinstance(source, ImapAlertsSourceConfig):
+            collectors.append(
+                ImapAlertsCollector(
+                    source.name,
+                    source.folder,
+                    tuple(source.allowed_sender_domains),
+                    source.max_messages,
+                )
+            )
     return collectors
 
 

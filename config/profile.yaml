@@ -41,7 +41,24 @@ profile:
     - erp
   minimum_score: 45
 
-sources: []
+sources:
+  # Put official LinkedIn, Indeed, IrishJobs, Jobs.ie, recruiter, and company
+  # alerts into this Outlook folder. Enable only after IMAP variables are set.
+  - name: Official job-alert inbox
+    type: imap_alerts
+    folder: CareerPilot Job Alerts
+    allowed_sender_domains:
+      - linkedin.com
+      - indeed.com
+      - irishjobs.ie
+      - jobs.ie
+      - jobs.dell.com
+      - careers.stryker.com
+      - careers.biomarin.com
+      - careers.jnj.com
+      - jobs.apple.com
+    max_messages: 100
+    enabled: false
 
 storage:
   sqlite_path: data/careerpilot.sqlite3
@@ -49,4 +66,3 @@ storage:
 email:
   subject_prefix: "CareerPilot"
   max_jobs_per_digest: 15
-

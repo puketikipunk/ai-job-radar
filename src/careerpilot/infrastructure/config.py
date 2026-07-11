@@ -53,7 +53,18 @@ class LeverSourceConfig(BaseModel):
     enabled: bool = True
 
 
-SourceConfig = GreenhouseSourceConfig | LeverSourceConfig
+class ImapAlertsSourceConfig(BaseModel):
+    """An inbox folder containing official job-alert emails."""
+
+    name: str
+    type: Literal["imap_alerts"]
+    folder: str = "CareerPilot Job Alerts"
+    allowed_sender_domains: list[str] = []
+    max_messages: int = Field(default=100, ge=1, le=500)
+    enabled: bool = False
+
+
+SourceConfig = GreenhouseSourceConfig | LeverSourceConfig | ImapAlertsSourceConfig
 
 
 class StorageConfig(BaseModel):
