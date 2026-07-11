@@ -1,0 +1,52 @@
+# Personal job-search profile. This file contains no credentials and is safe to edit locally.
+profile:
+  name: "Ozlem"
+  target_roles:
+    - Engineering Project Manager
+    - Technical Project Manager
+    - Technical Program Manager
+    - Program Manager
+    - Delivery Manager
+    - Software Delivery Manager
+    - PMO Analyst
+    - Programme Coordinator
+  preferred_locations:
+    - Cork
+    - Ireland
+    - Remote
+    - Hybrid
+  excluded_locations:
+    - Dublin
+    - Galway
+    - Limerick
+  include_keywords:
+    - agile
+    - software
+    - engineering
+    - sdlc
+    - delivery
+    - programme
+    - program
+    - project management
+    - stakeholder
+    - requirements
+    - testing
+    - risk
+  exclude_keywords:
+    - construction
+    - marketing
+    - clinical
+    - finance
+    - sap
+    - erp
+  minimum_score: 45
+
+sources: []
+
+storage:
+  sqlite_path: data/careerpilot.sqlite3
+
+email:
+  subject_prefix: "CareerPilot"
+  max_jobs_per_digest: 15
+

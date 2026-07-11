@@ -1,0 +1,1 @@
+"""CareerPilot job-discovery application."""

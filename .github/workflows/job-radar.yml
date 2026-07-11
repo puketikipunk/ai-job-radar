@@ -1,0 +1,43 @@
+name: CareerPilot job radar
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Print digest without sending email"
+        required: false
+        default: true
+        type: boolean
+  schedule:
+    # 08:00 and 18:00 UTC. Ireland daylight-saving time means this is seasonal.
+    - cron: "0 8,18 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  run-radar:
+    runs-on: ubuntu-latest
+    env:
+      CAREERPILOT_SMTP_HOST: ${{ secrets.CAREERPILOT_SMTP_HOST }}
+      CAREERPILOT_SMTP_PORT: ${{ secrets.CAREERPILOT_SMTP_PORT }}
+      CAREERPILOT_SMTP_USERNAME: ${{ secrets.CAREERPILOT_SMTP_USERNAME }}
+      CAREERPILOT_SMTP_PASSWORD: ${{ secrets.CAREERPILOT_SMTP_PASSWORD }}
+      CAREERPILOT_EMAIL_FROM: ${{ secrets.CAREERPILOT_EMAIL_FROM }}
+      CAREERPILOT_EMAIL_TO: ${{ secrets.CAREERPILOT_EMAIL_TO }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install CareerPilot
+        run: python -m pip install -e .
+      - name: Validate configuration
+        run: careerpilot validate-config
+      - name: Run radar (manual dry run)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        run: careerpilot run --dry-run
+      - name: Run radar and email digest
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && !inputs.dry_run)
+        run: careerpilot run --send-email
+

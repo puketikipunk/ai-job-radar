@@ -1,0 +1,61 @@
+profile:
+  name: "Ozlem"
+  target_roles:
+    - Engineering Project Manager
+    - Technical Project Manager
+    - Technical Program Manager
+    - Program Manager
+    - Delivery Manager
+    - Software Delivery Manager
+    - PMO Analyst
+    - Programme Coordinator
+  preferred_locations:
+    - Cork
+    - Ireland
+    - Remote
+    - Hybrid
+  excluded_locations:
+    - Dublin
+    - Galway
+    - Limerick
+  include_keywords:
+    - agile
+    - software
+    - engineering
+    - sdlc
+    - delivery
+    - programme
+    - program
+    - project management
+    - stakeholder
+    - requirements
+    - testing
+    - risk
+  exclude_keywords:
+    - construction
+    - marketing
+    - clinical
+    - finance
+    - sap
+    - erp
+  minimum_score: 45
+
+sources:
+  # Add only public boards you are authorised to monitor. The board token/site slug
+  # is the final path segment in many Greenhouse/Lever job board URLs.
+  - name: Example Greenhouse board
+    type: greenhouse
+    board_token: replace-with-a-greenhouse-board-token
+    enabled: false
+  - name: Example Lever board
+    type: lever
+    site: replace-with-a-lever-site-slug
+    enabled: false
+
+storage:
+  sqlite_path: data/careerpilot.sqlite3
+
+email:
+  subject_prefix: "CareerPilot"
+  max_jobs_per_digest: 15
+
